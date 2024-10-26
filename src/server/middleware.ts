@@ -1,5 +1,5 @@
+import { env } from '@x-util/env.ts';
 import { bodyLimit as middlewareBodyLimit } from 'hono/body-limit';
-import { env } from '../server.ts';
 import { ErrorCode } from '../types/ErrorHandler.ts';
 import { errorHandler } from './errorHandler.ts';
 

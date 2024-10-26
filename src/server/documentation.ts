@@ -1,6 +1,7 @@
 import { swaggerUI } from '@hono/swagger-ui';
 import type { OpenAPIHono } from '@hono/zod-openapi';
-import { config, env } from '../server.ts';
+import { env } from '@x-util/env.ts';
+import { config } from '../config.ts';
 
 export const documentation = (instance: OpenAPIHono): void => {
 	instance.doc31('/oas.json', (ctx) => ({
