@@ -17,25 +17,25 @@ export const logger = {
 
 	error: (...text: unknown[]): void => {
 		if (logLevel >= LogLevels.error) {
-			console.error(colors.gray('[BACKEND]'), colors.red('[ERROR]'), text.join('\n'));
+			console.error(colors.gray('[BACKEND]'), colors.red('[ERROR]'), text.join(' '));
 		}
 	},
 
 	warn: (...text: unknown[]): void => {
 		if (logLevel >= LogLevels.warn) {
-			console.warn(colors.gray('[BACKEND]'), colors.yellow('[WARN]'), text.join('\n'));
+			console.warn(colors.gray('[BACKEND]'), colors.yellow('[WARN]'), text.join(' '));
 		}
 	},
 
 	info: (...text: unknown[]): void => {
 		if (logLevel >= LogLevels.info) {
-			console.info(colors.gray('[BACKEND]'), colors.blue('[INFO]'), text.join('\n'));
+			console.info(colors.gray('[BACKEND]'), colors.blue('[INFO]'), text.join(' '));
 		}
 	},
 
 	debug: (...text: unknown[]): void => {
 		if (logLevel >= LogLevels.debug) {
-			console.debug(colors.gray('[BACKEND]'), colors.gray('[DEBUG]'), text.join('\n'));
+			console.debug(colors.gray('[BACKEND]'), colors.gray('[DEBUG]'), text.join(' '));
 		}
 	}
 } as const;

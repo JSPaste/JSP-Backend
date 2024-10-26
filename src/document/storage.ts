@@ -1,5 +1,5 @@
 import { deserialize, serialize } from 'bun:jsc';
-import { config } from '../server.ts';
+import { config } from '../config.ts';
 import { errorHandler } from '../server/errorHandler.ts';
 import type { Document } from '../types/Document.ts';
 import { ErrorCode } from '../types/ErrorHandler.ts';
