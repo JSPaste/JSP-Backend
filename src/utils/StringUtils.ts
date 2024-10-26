@@ -1,4 +1,4 @@
-import { config } from '../server.ts';
+import { config } from '../config.ts';
 import type { Range } from '../types/Range.ts';
 import { ValidatorUtils } from './ValidatorUtils.ts';
 

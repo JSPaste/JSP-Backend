@@ -1,10 +1,10 @@
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
 import { storage } from '@x-document/storage.ts';
 import { StringUtils } from '@x-util/StringUtils.ts';
+import { config } from '../../config.ts';
 import { compression } from '../../document/compression.ts';
 import { crypto } from '../../document/crypto.ts';
 import { validator } from '../../document/validator.ts';
-import { config } from '../../server.ts';
 import { errorHandler, schema } from '../../server/errorHandler.ts';
 import { middleware } from '../../server/middleware.ts';
 import { DocumentVersion } from '../../types/Document.ts';
