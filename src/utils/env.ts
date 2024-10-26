@@ -7,5 +7,6 @@ export const env = {
 	tls: get('TLS').asBoolStrict() ?? true,
 	documentMaxSize: get('DOCUMENT_MAXSIZE').default(1024).asIntPositive(),
 	docsEnabled: get('DOCS_ENABLED').asBoolStrict() ?? false,
+	debugDB: get('DEBUG_DB').asBoolStrict() ?? false,
 	docsPath: get('DOCS_PATH').default('/docs').asString()
 } as const;

@@ -1,6 +1,7 @@
 import { Database as BunSQLite } from 'bun:sqlite';
 import fs from 'node:fs';
-import { config, env } from '../server.ts';
+import { env } from '@x-util/env.ts';
+import { config } from '../config.ts';
 
 // TODO: Implement database
 export class Database {
