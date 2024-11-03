@@ -1,8 +1,5 @@
 # Backend
 
-![OSSF-Scorecard](https://img.shields.io/ossf-scorecard/github.com/JSPaste/Backend?label=scorecard)
-![Codacy](https://img.shields.io/codacy/grade/1a477cecd06e4007b276021962e180ae/stable)
-
 ## Setup
 
 ### Binary
