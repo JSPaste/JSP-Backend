@@ -3,7 +3,7 @@ WORKDIR /build/
 
 COPY . ./
 
-RUN bun install --frozen-lockfile --production && \
+RUN bun install --frozen-lockfile && \
     bun run build:standalone
 
 FROM cgr.dev/chainguard/cc-dynamic:latest
