@@ -12,7 +12,7 @@ export const documentation = (instance: OpenAPIHono): void => {
 			description: `Note: The latest API version can be accessed with "${config.apiPath}/documents" alias route.`,
 			license: {
 				name: 'EUPL-1.2',
-				url: 'https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/2020-03/EUPL-1.2%20EN.txt'
+				url: 'https://eur-lex.europa.eu/eli/dec_impl/2017/863'
 			}
 		},
 		servers: [
