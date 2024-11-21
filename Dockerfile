@@ -6,11 +6,17 @@ COPY . ./
 RUN bun install --frozen-lockfile && \
     bun run build:standalone
 
-FROM cgr.dev/chainguard/cc-dynamic:latest
+FROM docker.io/library/alpine:3.20
 WORKDIR /backend/
 
-COPY --chown=nonroot --from=builder /build/dist/backend ./
-COPY --chown=nonroot --from=builder /build/LICENSE ./
+# FIXME: https://github.com/oven-sh/bun/issues/15307
+RUN apk add --no-cache libgcc libstdc++
+
+RUN adduser -D -h /backend jspaste && \
+    chown jspaste:jspaste /backend/
+
+COPY --chown=jspaste:jspaste --from=builder /build/dist/backend ./
+COPY --chown=jspaste:jspaste --from=builder /build/LICENSE ./
 
 LABEL org.opencontainers.image.url="https://jspaste.eu" \
       org.opencontainers.image.source="https://github.com/jspaste/backend" \
@@ -18,6 +24,11 @@ LABEL org.opencontainers.image.url="https://jspaste.eu" \
       org.opencontainers.image.description="The backend for JSPaste" \
       org.opencontainers.image.documentation="https://docs.jspaste.eu" \
       org.opencontainers.image.licenses="EUPL-1.2"
+
+ARG BUN_RUNTIME_TRANSPILER_CACHE_PATH=0
+ENV BUN_RUNTIME_TRANSPILER_CACHE_PATH=${BUN_RUNTIME_TRANSPILER_CACHE_PATH}
+
+USER jspaste
 
 VOLUME /backend/storage/
 EXPOSE 4000
