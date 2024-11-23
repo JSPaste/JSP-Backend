@@ -31,7 +31,6 @@
 		"start:server": "bun run ./dist/server.js"
 	},
 	"dependencies": {
-		"@hono/swagger-ui": "~0.4.1",
 		"@hono/zod-openapi": "~0.18.0",
 		"env-var": "~7.5.0",
 		"hono": "~4.6.10"

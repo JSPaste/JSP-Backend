@@ -1,9 +1,7 @@
-import { swaggerUI } from '@hono/swagger-ui';
 import type { OpenAPIHono } from '@hono/zod-openapi';
-import { env } from '@x-util/env.ts';
 import { config } from '../config.ts';
 
-export const documentation = (instance: OpenAPIHono): void => {
+export const oas = (instance: OpenAPIHono): void => {
 	instance.doc31('/oas.json', (ctx) => ({
 		openapi: '3.1.0',
 		info: {
@@ -30,11 +28,4 @@ export const documentation = (instance: OpenAPIHono): void => {
 			}
 		].filter((server, index, self) => self.findIndex((x) => x.url === server.url) === index)
 	}));
-
-	instance.get(
-		env.docsPath,
-		swaggerUI({
-			url: config.apiPath.concat('/oas.json')
-		})
-	);
 };
