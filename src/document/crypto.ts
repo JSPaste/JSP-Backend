@@ -1,22 +1,20 @@
 import { randomBytes } from 'node:crypto';
+import { CryptoHasher } from 'bun';
 
-const hashAlgorithm = 'blake2b256';
+const hasher = new CryptoHasher('blake2b256');
 const saltLength = 16;
 
 export const crypto = {
 	hash: (password: string): Uint8Array => {
 		const salt = randomBytes(saltLength);
-		const hasher = new Bun.CryptoHasher(hashAlgorithm, salt).update(password);
 
-		return Buffer.concat([salt, hasher.digest()]);
+		return Buffer.concat([salt, hasher.update(salt).update(password).digest()]);
 	},
 
 	compare: (password: string, hash: Uint8Array): boolean => {
 		const salt = hash.subarray(0, saltLength);
-		const hasher = new Bun.CryptoHasher(hashAlgorithm, salt).update(password);
+		const computedHash = hasher.update(salt).update(password).digest();
 
-		const passwordHash = Buffer.concat([salt, hasher.digest()]);
-
-		return hash.every((value, index) => value === passwordHash[index]);
+		return computedHash.compare(hash.subarray(saltLength)) === 0;
 	}
 } as const;
