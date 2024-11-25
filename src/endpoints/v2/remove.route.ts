@@ -1,8 +1,8 @@
 import { unlink } from 'node:fs/promises';
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
+import { assert } from '@x-document/assert.ts';
 import { storage } from '@x-document/storage.ts';
 import { config } from '../../config.ts';
-import { validator } from '../../document/validator.ts';
 import { errorHandler, schema } from '../../server/errorHandler.ts';
 import { ErrorCode } from '../../types/ErrorHandler.ts';
 
@@ -52,9 +52,11 @@ export const removeRoute = (endpoint: OpenAPIHono): void => {
 			const params = ctx.req.valid('param');
 			const headers = ctx.req.valid('header');
 
+			assert.name(params.name);
+
 			const document = await storage.read(params.name);
 
-			validator.validateSecret(headers.secret, document.header.secretHash);
+			assert.secret(headers.secret, document.header.secretHash);
 
 			const result = await unlink(config.storagePath + params.name)
 				.then(() => true)

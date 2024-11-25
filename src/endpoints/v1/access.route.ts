@@ -1,4 +1,5 @@
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
+import { assert } from '@x-document/assert.ts';
 import { config } from '../../config.ts';
 import { compression } from '../../document/compression.ts';
 import { storage } from '../../document/storage.ts';
@@ -48,6 +49,8 @@ export const accessRoute = (endpoint: OpenAPIHono): void => {
 		route,
 		async (ctx) => {
 			const params = ctx.req.valid('param');
+
+			assert.name(params.name);
 
 			const document = await storage.read(params.name);
 

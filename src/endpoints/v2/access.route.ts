@@ -1,8 +1,8 @@
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
+import { assert } from '@x-document/assert.ts';
 import { storage } from '@x-document/storage.ts';
 import { config } from '../../config.ts';
 import { compression } from '../../document/compression.ts';
-import { validator } from '../../document/validator.ts';
 import { errorHandler, schema } from '../../server/errorHandler.ts';
 import { ErrorCode } from '../../types/ErrorHandler.ts';
 
@@ -65,6 +65,8 @@ export const accessRoute = (endpoint: OpenAPIHono): void => {
 			const params = ctx.req.valid('param');
 			const headers = ctx.req.valid('header');
 
+			assert.name(params.name);
+
 			const document = await storage.read(params.name);
 
 			if (document.header.passwordHash) {
@@ -72,7 +74,7 @@ export const accessRoute = (endpoint: OpenAPIHono): void => {
 					return errorHandler.send(ErrorCode.documentPasswordNeeded);
 				}
 
-				validator.validatePassword(headers.password, document.header.passwordHash);
+				assert.password(headers.password, document.header.passwordHash);
 			}
 
 			const buffer = compression.decode(document.data);

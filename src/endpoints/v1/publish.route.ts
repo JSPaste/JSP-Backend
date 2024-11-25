@@ -1,5 +1,5 @@
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
-import { StringUtils } from '@x-util/StringUtils.ts';
+import { string } from '@x-util/string.ts';
 import { compression } from '../../document/compression.ts';
 import { crypto } from '../../document/crypto.ts';
 import { storage } from '../../document/storage.ts';
@@ -56,8 +56,8 @@ export const publishRoute = (endpoint: OpenAPIHono): void => {
 		route,
 		async (ctx) => {
 			const body = await ctx.req.arrayBuffer();
-			const name = await StringUtils.createName();
-			const secret = StringUtils.createSecret();
+			const name = await string.createName();
+			const secret = string.createSecret();
 
 			await storage.write(name, {
 				data: compression.encode(body),

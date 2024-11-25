@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer';
 import { randomBytes } from 'node:crypto';
 import { CryptoHasher } from 'bun';
 

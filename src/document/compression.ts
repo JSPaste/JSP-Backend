@@ -1,5 +1,4 @@
-import { type InputType, brotliCompressSync, brotliDecompressSync } from 'node:zlib';
-import { constants as zlibConstants } from 'zlib';
+import { type InputType, brotliCompressSync, brotliDecompressSync, constants as zlibConstants } from 'node:zlib';
 
 export const compression = {
 	encode: (data: InputType): Buffer => {
