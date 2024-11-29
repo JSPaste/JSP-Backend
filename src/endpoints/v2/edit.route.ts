@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer';
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
 import { assert } from '@x-document/assert.ts';
 import { storage } from '@x-document/storage.ts';
@@ -76,7 +77,7 @@ export const editRoute = (endpoint: OpenAPIHono): void => {
 
 			assert.secret(headers.secret, document.header.secretHash);
 
-			document.data = compression.encode(body);
+			document.data = compression.encode(body) ?? Buffer.from(body);
 
 			const result = await storage
 				.write(params.name, document)

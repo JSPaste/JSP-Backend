@@ -102,7 +102,7 @@ export const errorHandler = {
 		return { type, code, message };
 	},
 
-	send: (code: ErrorCode) => {
+	send: (code: ErrorCode): never => {
 		const { httpCode, type, message } = map[code];
 
 		throw new HTTPException(httpCode, {

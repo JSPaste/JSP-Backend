@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer';
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
 import { assert } from '@x-document/assert.ts';
 import { storage } from '@x-document/storage.ts';
@@ -106,7 +107,7 @@ export const publishRoute = (endpoint: OpenAPIHono): void => {
 				assert.name(headers.key);
 
 				if (await string.nameExists(headers.key)) {
-					errorHandler.send(ErrorCode.documentNameAlreadyExists);
+					return errorHandler.send(ErrorCode.documentNameAlreadyExists);
 				}
 
 				name = headers.key;
@@ -116,10 +117,8 @@ export const publishRoute = (endpoint: OpenAPIHono): void => {
 				name = await string.createName(nameLength);
 			}
 
-			const data = compression.encode(body);
-
 			await storage.write(name, {
-				data: data,
+				data: compression.encode(body) ?? Buffer.from(body),
 				header: {
 					name: name,
 					secretHash: crypto.hash(secret),

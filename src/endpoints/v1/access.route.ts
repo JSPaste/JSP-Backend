@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer';
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
 import { assert } from '@x-document/assert.ts';
 import { config } from '../../config.ts';
@@ -56,10 +57,10 @@ export const accessRoute = (endpoint: OpenAPIHono): void => {
 
 			// V1 Endpoint does not support document protected password
 			if (document.header.passwordHash) {
-				errorHandler.send(ErrorCode.documentPasswordNeeded);
+				return errorHandler.send(ErrorCode.documentPasswordNeeded);
 			}
 
-			const buffer = compression.decode(document.data);
+			const buffer = compression.decode(document.data) ?? Buffer.from(document.data);
 
 			return ctx.json({
 				key: params.name,

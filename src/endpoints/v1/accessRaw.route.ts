@@ -50,11 +50,11 @@ export const accessRawRoute = (endpoint: OpenAPIHono): void => {
 
 			// V1 Endpoint does not support document protected password
 			if (document.header.passwordHash) {
-				errorHandler.send(ErrorCode.documentPasswordNeeded);
+				return errorHandler.send(ErrorCode.documentPasswordNeeded);
 			}
 
-			// @ts-ignore: Return the buffer directly
-			return ctx.text(compression.decode(document.data));
+			// @ts-ignore: Return the document data directly
+			return ctx.text(compression.decode(document.data) ?? document.data);
 		},
 		(result) => {
 			if (!result.success) {

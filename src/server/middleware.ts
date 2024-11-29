@@ -1,5 +1,5 @@
-import { env } from '@x-util/env.ts';
 import { bodyLimit as middlewareBodyLimit } from 'hono/body-limit';
+import { env } from '../env.ts';
 import { ErrorCode } from '../types/ErrorHandler.ts';
 import { errorHandler } from './errorHandler.ts';
 
@@ -8,7 +8,7 @@ export const middleware = {
 		return middlewareBodyLimit({
 			maxSize: maxSize * 1024,
 			onError: () => {
-				throw errorHandler.send(ErrorCode.documentInvalidSize);
+				return errorHandler.send(ErrorCode.documentInvalidSize);
 			}
 		});
 	}

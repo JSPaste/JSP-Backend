@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer';
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
 import { string } from '@x-util/string.ts';
 import { compression } from '../../document/compression.ts';
@@ -60,7 +61,7 @@ export const publishRoute = (endpoint: OpenAPIHono): void => {
 			const secret = string.createSecret();
 
 			await storage.write(name, {
-				data: compression.encode(body),
+				data: compression.encode(body) ?? Buffer.from(body),
 				header: {
 					name: name,
 					secretHash: crypto.hash(secret),

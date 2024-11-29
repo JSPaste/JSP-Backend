@@ -1,11 +1,11 @@
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { oas } from '@x-server/oas.ts';
-import { env } from '@x-util/env.ts';
 import { logger } from '@x-util/logger.ts';
 import { serve } from 'bun';
 import { cors } from 'hono/cors';
 import { HTTPException } from 'hono/http-exception';
 import { config } from './config.ts';
+import { env } from './env.ts';
 import { endpoints } from './server/endpoints.ts';
 import { errorHandler } from './server/errorHandler.ts';
 import { ErrorCode } from './types/ErrorHandler.ts';
@@ -19,13 +19,14 @@ const instance = new OpenAPIHono().basePath(config.apiPath);
 export const server = (): typeof instance => {
 	instance.use('*', cors());
 
-	instance.onError((err) => {
-		if (err instanceof HTTPException) {
-			return err.getResponse();
+	instance.onError((error) => {
+		if (error instanceof HTTPException) {
+			return error.getResponse();
 		}
 
-		logger.error(err);
-		throw errorHandler.send(ErrorCode.unknown);
+		logger.error(error);
+
+		return errorHandler.send(ErrorCode.unknown);
 	});
 
 	instance.notFound((ctx) => {
@@ -35,7 +36,6 @@ export const server = (): typeof instance => {
 	oas(instance);
 	endpoints(instance);
 
-	logger.debug('Registered routes:', instance.routes);
 	logger.info(`Listening on: http://localhost:${env.port}`);
 
 	return instance;

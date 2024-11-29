@@ -74,8 +74,8 @@ export const accessRawRoute = (endpoint: OpenAPIHono): void => {
 				assert.password(options.password, document.header.passwordHash);
 			}
 
-			// @ts-ignore: Return the buffer directly
-			return ctx.text(compression.decode(document.data));
+			// @ts-ignore: Return the document data directly
+			return ctx.text(compression.decode(document.data) ?? document.data);
 		},
 		(result) => {
 			if (!result.success) {

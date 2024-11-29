@@ -1,4 +1,4 @@
-import { env } from '@x-util/env.ts';
+import { env } from './env.ts';
 
 export const config = {
 	apiPath: '/api',

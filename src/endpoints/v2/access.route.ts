@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer';
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
 import { assert } from '@x-document/assert.ts';
 import { storage } from '@x-document/storage.ts';
@@ -77,7 +78,7 @@ export const accessRoute = (endpoint: OpenAPIHono): void => {
 				assert.password(headers.password, document.header.passwordHash);
 			}
 
-			const buffer = compression.decode(document.data);
+			const buffer = compression.decode(document.data) ?? Buffer.from(document.data);
 
 			return ctx.json({
 				key: params.name,
