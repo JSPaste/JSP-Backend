@@ -1,4 +1,5 @@
 import { deserialize, serialize } from 'bun:jsc';
+import { logger } from '@x-util/logger.ts';
 import { config } from '../config.ts';
 import { errorHandler } from '../server/errorHandler.ts';
 import type { Document } from '../types/Document.ts';
@@ -6,10 +7,18 @@ import { ErrorCode } from '../types/ErrorHandler.ts';
 
 export const storage = {
 	read: async (name: string): Promise<Document> => {
+		const document = await Bun.file(config.storagePath + name)
+			.arrayBuffer()
+			.catch(() => errorHandler.send(ErrorCode.documentNotFound));
+
 		try {
-			return deserialize(await Bun.file(config.storagePath + name).arrayBuffer());
+			if (document.byteLength <= 0) throw null;
+
+			return deserialize(document);
 		} catch {
-			return errorHandler.send(ErrorCode.documentNotFound);
+			logger.error(`Document "${name}" is corrupted! Aborting...`);
+
+			return errorHandler.send(ErrorCode.documentCorrupted);
 		}
 	},
 

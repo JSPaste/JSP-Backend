@@ -31,13 +31,13 @@
 		"start:server": "bun run ./dist/server.js"
 	},
 	"dependencies": {
-		"@hono/zod-openapi": "~0.18.0",
+		"@hono/zod-openapi": "~0.18.2",
 		"env-var": "~7.5.0",
 		"hono": "~4.6.12"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "~1.9.4",
-		"@types/bun": "^1.1.13",
+		"@types/bun": "^1.1.14",
 		"lefthook": "~1.8.4",
 		"sort-package-json": "~2.12.0"
 	},
