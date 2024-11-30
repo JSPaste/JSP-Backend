@@ -24,7 +24,7 @@ export const string = {
 	},
 
 	nameExists: (name: string): Promise<boolean> => {
-		return Bun.file(config.storagePath + name).exists();
+		return Bun.file(config.storageDataPath + name).exists();
 	},
 
 	random: (length: number, base: Range<2, 64> = 62): string => {

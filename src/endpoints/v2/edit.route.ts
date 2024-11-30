@@ -2,11 +2,11 @@ import { Buffer } from 'node:buffer';
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
 import { assert } from '@x-document/assert.ts';
 import { storage } from '@x-document/storage.ts';
+import { ErrorCode } from '@x-type/ErrorHandler.ts';
 import { config } from '../../config.ts';
 import { compression } from '../../document/compression.ts';
 import { errorHandler, schema } from '../../server/errorHandler.ts';
 import { middleware } from '../../server/middleware.ts';
-import { ErrorCode } from '../../types/ErrorHandler.ts';
 
 export const editRoute = (endpoint: OpenAPIHono): void => {
 	const route = createRoute({

@@ -2,6 +2,7 @@ import { LogLevels } from '@x-util/logger.ts';
 import { get } from 'env-var';
 
 export const env = {
+	debugDatabaseEphemeral: get('DEBUG_DATABASE_EPHEMERAL').asBoolStrict() ?? false,
 	documentCompression: get('DOCUMENT_COMPRESSION').default('brotli').asEnum(['none', 'deflate', 'brotli']),
 	documentCompressionBrotliLevel: get('DOCUMENT_COMPRESSION_BROTLI_LEVEL').default(1).asIntPositive(), // FIXME: Check ranges
 	documentCompressionDeflateLevel: get('DOCUMENT_COMPRESSION_DEFLATE_LEVEL').default(1).asIntPositive(), // FIXME: Check ranges

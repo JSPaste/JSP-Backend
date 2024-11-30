@@ -1,10 +1,10 @@
 import { unlink } from 'node:fs/promises';
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
 import { assert } from '@x-document/assert.ts';
+import { ErrorCode } from '@x-type/ErrorHandler.ts';
 import { config } from '../../config.ts';
 import { storage } from '../../document/storage.ts';
 import { errorHandler, schema } from '../../server/errorHandler.ts';
-import { ErrorCode } from '../../types/ErrorHandler.ts';
 
 export const removeRoute = (endpoint: OpenAPIHono): void => {
 	const route = createRoute({
@@ -59,7 +59,7 @@ export const removeRoute = (endpoint: OpenAPIHono): void => {
 
 			assert.secret(headers.secret, document.header.secretHash);
 
-			const result = await unlink(config.storagePath + params.name)
+			const result = await unlink(config.storageDataPath + params.name)
 				.then(() => true)
 				.catch(() => false);
 

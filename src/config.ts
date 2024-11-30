@@ -6,5 +6,7 @@ export const config = {
 	documentNameLengthMax: 32,
 	documentNameLengthMin: 2,
 	protocol: env.tls ? 'https://' : 'http://',
-	storagePath: 'storage/'
+	storageDataPath: './storage/data/',
+	storageDatabaseFile: './storage/database.db',
+	storagePath: './storage/'
 } as const;

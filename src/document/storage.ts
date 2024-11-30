@@ -7,7 +7,7 @@ import { ErrorCode } from '../types/ErrorHandler.ts';
 
 export const storage = {
 	read: async (name: string): Promise<Document> => {
-		const document = await Bun.file(config.storagePath + name)
+		const document = await Bun.file(config.storageDataPath + name)
 			.arrayBuffer()
 			.catch(() => errorHandler.send(ErrorCode.documentNotFound));
 
@@ -23,6 +23,6 @@ export const storage = {
 	},
 
 	write: async (name: string, document: Document): Promise<void> => {
-		await Bun.write(config.storagePath + name, serialize(document));
+		await Bun.write(config.storageDataPath + name, serialize(document));
 	}
 } as const;
