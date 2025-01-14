@@ -1,14 +1,15 @@
+import { Buffer } from 'node:buffer';
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
+import { assert } from '@x-document/assert.ts';
 import { storage } from '@x-document/storage.ts';
-import { StringUtils } from '@x-util/StringUtils.ts';
+import { DocumentVersion } from '@x-type/Document.ts';
+import { ErrorCode } from '@x-type/ErrorHandler.ts';
+import { string } from '@x-util/string.ts';
 import { config } from '../../config.ts';
 import { compression } from '../../document/compression.ts';
 import { crypto } from '../../document/crypto.ts';
-import { validator } from '../../document/validator.ts';
 import { errorHandler, schema } from '../../server/errorHandler.ts';
 import { middleware } from '../../server/middleware.ts';
-import { DocumentVersion } from '../../types/Document.ts';
-import { ErrorCode } from '../../types/ErrorHandler.ts';
 
 export const publishRoute = (endpoint: OpenAPIHono): void => {
 	const route = createRoute({
@@ -87,39 +88,37 @@ export const publishRoute = (endpoint: OpenAPIHono): void => {
 			const headers = ctx.req.valid('header');
 
 			if (headers.password) {
-				validator.validatePasswordLength(headers.password);
+				assert.passwordLength(headers.password);
 			}
 
 			let secret: string;
 
 			if (headers.secret) {
-				validator.validateSecretLength(headers.secret);
+				assert.secretLength(headers.secret);
 
 				secret = headers.secret;
 			} else {
-				secret = StringUtils.createSecret();
+				secret = string.createSecret();
 			}
 
 			let name: string;
 
 			if (headers.key) {
-				validator.validateName(headers.key);
+				assert.name(headers.key);
 
-				if (await StringUtils.nameExists(headers.key)) {
-					errorHandler.send(ErrorCode.documentNameAlreadyExists);
+				if (await string.nameExists(headers.key)) {
+					return errorHandler.send(ErrorCode.documentNameAlreadyExists);
 				}
 
 				name = headers.key;
 			} else {
 				const nameLength = Number(headers.keylength || config.documentNameLengthDefault);
 
-				name = await StringUtils.createName(nameLength);
+				name = await string.createName(nameLength);
 			}
 
-			const data = compression.encode(body);
-
 			await storage.write(name, {
-				data: data,
+				data: compression.encode(body) ?? Buffer.from(body),
 				header: {
 					name: name,
 					secretHash: crypto.hash(secret),

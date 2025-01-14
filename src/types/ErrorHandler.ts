@@ -1,6 +1,6 @@
 import type { StatusCode } from 'hono/utils/http-status';
 
-enum ErrorCode {
+export enum ErrorCode {
 	// * Generic
 	crash = 1000,
 	unknown = 1001,
@@ -25,11 +25,8 @@ enum ErrorCode {
 
 type Type = 'generic' | 'document';
 
-type Schema = {
+export type Schema = {
 	httpCode: StatusCode;
 	type: Type;
 	message: string;
 };
-
-export type { Schema };
-export { ErrorCode };

@@ -1,8 +1,8 @@
-enum DocumentVersion {
+export enum DocumentVersion {
 	V1 = 1
 }
 
-interface Document {
+export interface Document {
 	data: Uint8Array;
 	header: {
 		name: string;
@@ -11,6 +11,3 @@ interface Document {
 	};
 	version: DocumentVersion;
 }
-
-export type { Document };
-export { DocumentVersion };

@@ -9,8 +9,10 @@
 		"build:server": "bun build ./src/server.ts --outfile=./dist/server.js --target=bun --minify --sourcemap=inline",
 		"build:standalone": "bun build ./src/server.ts --outfile=./dist/backend --compile --minify --sourcemap=inline",
 		"build:standalone:darwin-arm64": "bun run build:standalone -- --target=bun-darwin-arm64",
-		"build:standalone:linux-amd64": "bun run build:standalone -- --target=bun-linux-x64-modern",
-		"build:standalone:linux-arm64": "bun run build:standalone -- --target=bun-linux-arm64",
+		"build:standalone:linux-glibc-amd64": "bun run build:standalone -- --target=bun-linux-x64-modern",
+		"build:standalone:linux-glibc-arm64": "bun run build:standalone -- --target=bun-linux-arm64",
+		"build:standalone:linux-musl-amd64": "bun run build:standalone -- --target=bun-linux-x64-modern-musl",
+		"build:standalone:linux-musl-arm64": "bun run build:standalone -- --target=bun-linux-arm64-musl",
 		"build:standalone:windows-amd64": "bun run build:standalone -- --target=bun-windows-x64-modern",
 		"clean:git:all": "bun run clean:git:untracked && bun run clean:git:gc && bun run clean:git:hooks",
 		"clean:git:all:force": "bun run clean:git:untracked:force && bun run clean:git:gc && bun run clean:git:hooks",
@@ -31,15 +33,15 @@
 		"start:server": "bun run ./dist/server.js"
 	},
 	"dependencies": {
-		"@hono/zod-openapi": "~0.18.0",
+		"@hono/zod-openapi": "~0.18.3",
 		"env-var": "~7.5.0",
-		"hono": "~4.6.10"
+		"hono": "~4.6.12"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "~1.9.4",
-		"@types/bun": "^1.1.13",
+		"@types/bun": "^1.1.14",
 		"lefthook": "~1.8.4",
-		"sort-package-json": "~2.11.0"
+		"sort-package-json": "~2.12.0"
 	},
 	"peerDependencies": {
 		"typescript": "5.5.4"
