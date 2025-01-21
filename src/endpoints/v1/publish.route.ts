@@ -1,12 +1,13 @@
+import { Buffer } from 'node:buffer';
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
-import { StringUtils } from '@x-util/StringUtils.ts';
+import { DocumentVersion } from '@x-type/Document.ts';
+import { ErrorCode } from '@x-type/ErrorHandler.ts';
+import { string } from '@x-util/string.ts';
 import { compression } from '../../document/compression.ts';
 import { crypto } from '../../document/crypto.ts';
 import { storage } from '../../document/storage.ts';
 import { errorHandler, schema } from '../../server/errorHandler.ts';
 import { middleware } from '../../server/middleware.ts';
-import { DocumentVersion } from '../../types/Document.ts';
-import { ErrorCode } from '../../types/ErrorHandler.ts';
 
 export const publishRoute = (endpoint: OpenAPIHono): void => {
 	const route = createRoute({
@@ -56,11 +57,11 @@ export const publishRoute = (endpoint: OpenAPIHono): void => {
 		route,
 		async (ctx) => {
 			const body = await ctx.req.arrayBuffer();
-			const name = await StringUtils.createName();
-			const secret = StringUtils.createSecret();
+			const name = await string.createName();
+			const secret = string.createSecret();
 
 			await storage.write(name, {
-				data: compression.encode(body),
+				data: compression.encode(body) ?? Buffer.from(body),
 				header: {
 					name: name,
 					secretHash: crypto.hash(secret),

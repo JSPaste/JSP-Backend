@@ -34,8 +34,10 @@
 		"paths": {
 			"@x-v1/*": ["./src/endpoints/v1/*"],
 			"@x-v2/*": ["./src/endpoints/v2/*"],
+			"@x-db/*": ["./src/database/*"],
 			"@x-document/*": ["./src/document/*"],
 			"@x-server/*": ["./src/server/*"],
+			"@x-type/*": ["./src/types/*"],
 			"@x-util/*": ["./src/utils/*"]
 		}
 	},
