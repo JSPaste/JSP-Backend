@@ -74,18 +74,18 @@ jobs:
         run: |
           bun run build:standalone:darwin-arm64
           chmod 755 ./dist/backend
-          tar -c --owner=0 --group=0 --mtime='now' --utc .env.example LICENSE README.md -C ./dist/ backend | gzip --best >./dist/backend_${{ steps.tags-artifact.outputs.tag }}_darwin-arm64.tar.gz
-          tar -tzf ./dist/backend_${{ steps.tags-artifact.outputs.tag }}_darwin-arm64.tar.gz >/dev/null
+          tar -c --owner=0 --group=0 --mtime='now' --utc .env.example LICENSE README.md -C ./dist/ backend | xz -z -6 >./dist/backend_${{ steps.tags-artifact.outputs.tag }}_darwin-arm64.tar.xz
+          tar -tJf ./dist/backend_${{ steps.tags-artifact.outputs.tag }}_darwin-arm64.tar.xz >/dev/null
 
-          bun run build:standalone:linux-amd64
+          bun run build:standalone:linux-glibc-amd64
           chmod 755 ./dist/backend
-          tar -c --owner=0 --group=0 --mtime='now' --utc .env.example LICENSE README.md -C ./dist/ backend | gzip --best >./dist/backend_${{ steps.tags-artifact.outputs.tag }}_linux-amd64.tar.gz
-          tar -tzf ./dist/backend_${{ steps.tags-artifact.outputs.tag }}_linux-amd64.tar.gz >/dev/null
+          tar -c --owner=0 --group=0 --mtime='now' --utc .env.example LICENSE README.md -C ./dist/ backend | xz -z -6 >./dist/backend_${{ steps.tags-artifact.outputs.tag }}_linux-glibc-amd64.tar.xz
+          tar -tJf ./dist/backend_${{ steps.tags-artifact.outputs.tag }}_linux-glibc-amd64.tar.xz >/dev/null
 
-          bun run build:standalone:linux-arm64
+          bun run build:standalone:linux-glibc-arm64
           chmod 755 ./dist/backend
-          tar -c --owner=0 --group=0 --mtime='now' --utc .env.example LICENSE README.md -C ./dist/ backend | gzip --best >./dist/backend_${{ steps.tags-artifact.outputs.tag }}_linux-arm64.tar.gz
-          tar -tzf ./dist/backend_${{ steps.tags-artifact.outputs.tag }}_linux-arm64.tar.gz >/dev/null
+          tar -c --owner=0 --group=0 --mtime='now' --utc .env.example LICENSE README.md -C ./dist/ backend | xz -z -6 >./dist/backend_${{ steps.tags-artifact.outputs.tag }}_linux-glibc-arm64.tar.xz
+          tar -tJf ./dist/backend_${{ steps.tags-artifact.outputs.tag }}_linux-glibc-arm64.tar.xz >/dev/null
 
           bun run build:standalone:windows-amd64
           chmod 755 ./dist/backend.exe
@@ -98,7 +98,7 @@ jobs:
         with:
           name: ${{ steps.tags-artifact.outputs.extended }}
           tag: ${{ steps.tags-artifact.outputs.extended }}
-          artifacts: dist/*.tar.gz,dist/*.zip
+          artifacts: dist/*.tar.xz,dist/*.zip
           makeLatest: true
           prerelease: ${{ github.ref != 'refs/heads/stable' }}
           generateReleaseNotes: ${{ github.ref == 'refs/heads/stable' }}
@@ -108,7 +108,7 @@ jobs:
         uses: actions/attest-build-provenance@520d128f165991a6c774bcb264f323e3d70747f4 # v2.2.0
         with:
           subject-path: |
-            dist/*.tar.gz
+            dist/*.tar.xz
             dist/*.zip
 
   container:

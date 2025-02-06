@@ -1,9 +1,11 @@
+import { Buffer } from 'node:buffer';
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
+import { assert } from '@x-document/assert.ts';
+import { ErrorCode } from '@x-type/ErrorHandler.ts';
 import { config } from '../../config.ts';
 import { compression } from '../../document/compression.ts';
 import { storage } from '../../document/storage.ts';
 import { errorHandler, schema } from '../../server/errorHandler.ts';
-import { ErrorCode } from '../../types/ErrorHandler.ts';
 
 export const accessRoute = (endpoint: OpenAPIHono): void => {
 	const route = createRoute({
@@ -49,14 +51,16 @@ export const accessRoute = (endpoint: OpenAPIHono): void => {
 		async (ctx) => {
 			const params = ctx.req.valid('param');
 
+			assert.name(params.name);
+
 			const document = await storage.read(params.name);
 
 			// V1 Endpoint does not support document protected password
 			if (document.header.passwordHash) {
-				errorHandler.send(ErrorCode.documentPasswordNeeded);
+				return errorHandler.send(ErrorCode.documentPasswordNeeded);
 			}
 
-			const buffer = compression.decode(document.data);
+			const buffer = compression.decode(document.data) ?? Buffer.from(document.data);
 
 			return ctx.json({
 				key: params.name,

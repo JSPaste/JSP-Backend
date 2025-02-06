@@ -1,8 +1,8 @@
 import { type OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
+import { assert } from '@x-document/assert.ts';
+import { ErrorCode } from '@x-type/ErrorHandler.ts';
 import { config } from '../../config.ts';
-import { validator } from '../../document/validator.ts';
 import { errorHandler, schema } from '../../server/errorHandler.ts';
-import { ErrorCode } from '../../types/ErrorHandler.ts';
 
 export const existsRoute = (endpoint: OpenAPIHono): void => {
 	const route = createRoute({
@@ -50,9 +50,9 @@ export const existsRoute = (endpoint: OpenAPIHono): void => {
 		async (ctx) => {
 			const params = ctx.req.valid('param');
 
-			validator.validateName(params.name);
+			assert.name(params.name);
 
-			return ctx.text(String(await Bun.file(config.storagePath + params.name).exists()));
+			return ctx.text(String(await Bun.file(config.storageDataPath + params.name).exists()));
 		},
 		(result) => {
 			if (!result.success) {

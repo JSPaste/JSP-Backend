@@ -1,10 +1,12 @@
-import { env } from '@x-util/env.ts';
+import { env } from './env.ts';
 
 export const config = {
-	protocol: env.tls ? 'https://' : 'http://',
 	apiPath: '/api',
-	storagePath: 'storage/',
-	documentNameLengthMin: 2,
+	documentNameLengthDefault: 8,
 	documentNameLengthMax: 32,
-	documentNameLengthDefault: 8
+	documentNameLengthMin: 2,
+	protocol: env.tls ? 'https://' : 'http://',
+	storageDataPath: './storage/data/',
+	storageDatabaseFile: './storage/database.db',
+	storagePath: './storage/'
 } as const;
