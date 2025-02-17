@@ -1,8 +1,5 @@
 # Backend
 
-![OSSF-Scorecard](https://img.shields.io/ossf-scorecard/github.com/JSPaste/Backend?label=scorecard)
-![Codacy](https://img.shields.io/codacy/grade/1a477cecd06e4007b276021962e180ae/stable)
-
 ## Setup
 
 ### Binary
@@ -36,7 +33,7 @@ docker run -e DOCS_ENABLED=true -d -p 127.0.0.1:4000:4000 \
 ## Validate
 
 > [!IMPORTANT]
-> ALL artifacts and images originate from GitHub `JSPaste/Backend` repository, no other artifacts or
+> All artifacts and images originate from GitHub `JSPaste/Backend` repository, no other artifacts or
 > images built and distributed outside that repository are considered secure nor trusted by the JSPaste team.
 
 Artifacts are attested and can be verified using the following command:
@@ -59,6 +56,23 @@ You can verify the integrity and origin of an artifact and/or image using the Gi
 at [JSPaste Attestations](https://github.com/jspaste/backend/attestations).
 
 ## Development
+
+### API
+
+The API is documented under OpenAPI specification and can be found at the following path:
+
+```shell
+/:apipath/oas.json
+```
+
+There are several ways to interact with the API, we will cover its use with [Scalar](https://scalar.com).
+
+We recommend using the desktop application, however,
+you can also use the [web-based environment](https://client.scalar.com). (you may need to disable the CORS Proxy)
+
+Follow these steps to import the instance's `oas.json` to Scalar:
+
+![](https://static.x.inetol.net/jspaste/backend/scalar-t1.gif)
 
 ### Maintenance
 
